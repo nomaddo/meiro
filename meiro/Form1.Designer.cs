@@ -82,6 +82,7 @@
             this.field.Size = new System.Drawing.Size(100, 100);
             this.field.TabIndex = 4;
             this.field.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.field.Resize += new System.EventHandler(this.field_Resize);
             // 
             // top
             // 
@@ -89,7 +90,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(536, 424);
+            this.ClientSize = new System.Drawing.Size(609, 424);
             this.Controls.Add(this.field);
             this.Controls.Add(this.testBtn);
             this.Controls.Add(this.runBtn);
@@ -99,6 +100,7 @@
             this.Name = "top";
             this.Text = "迷路";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.top_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

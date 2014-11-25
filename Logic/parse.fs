@@ -28,11 +28,17 @@
             raise NoEntry
        else output
     let map = conv path
+    let maxY = Array.length map
+    let maxX = Array.length map.[0]
     let get x y = 
-        try Some map.[y].[x] with :? IndexOutOfRangeException -> None
+        if x <= maxX - 1 && x >= 0 && y <= maxY - 1 && y >= 0
+        then Some map.[y].[x] 
+        else None
     let getOfPair (x,y) = get x y
     let getWithLoc x y =
-        try Some (x, y, map.[y].[x]) with :? IndexOutOfRangeException -> None
+        if x <= maxX - 1 && x >= 0 && y <= maxY - 1 && y >= 0
+        then Some (x, y, map.[y].[x])
+        else None
     let access (x, y) =
         [getWithLoc x (y + 1); getWithLoc x (y - 1); 
          getWithLoc (x + 1) y; getWithLoc (x - 1) y]
@@ -76,16 +82,18 @@
               searchAdd (len + 1) p) l
         if !endFlag then () else solve ()  
     let makeLine () =
-      let rec chain pos =
+      let rec chain acc pos =
           match table.[pos].bef with
-          | None -> [pos]
-          | Some p -> pos :: chain p
-      chain !exitPoint |> List.rev
+          | None -> pos::acc
+          | Some p -> chain (pos::acc) p
+      chain [] !exitPoint |> List.rev
     member this.Map =
         map
         |> Array.map (Array.map (function
             | Wall -> 0
-            | _ -> 1))
+            | Room -> 1
+            | Start -> 2
+            | Exit -> 3))
     member this.Solve () =
       solve ()
       makeLine ()
